@@ -16,7 +16,7 @@ El objetivo del siguiente ejercicio es simular las operaciones que se realizarí
 ## TODO
 
 - [ ]  Implementar la lógica del método **`findById`** y pasar las pruebas unitarias de ese servicio.
-- [ ]  Implementar la lógica del método `**create`** y pasar las pruebas.
+- [ ]  Implementar la lógica del método **`create`** y pasar las pruebas.
 - [ ]  Completar las pruebas unitarias del servicio **`update`**.
 - [ ]  Implementar la lógica del método **`update`** y pasar las pruebas.
 - [ ]  Completar las pruebas unitarias del servicio **`delete`**.
@@ -45,3 +45,6 @@ Esta dependencia nos ayuda a evitar tener que pensar en datos falsos de usuarios
 1. Base de datos → `/db/db.json`
 2. Clase Servicios → `/services/db.services.js`
 3. Pruebas → `/tests/service.test.js`
+
+## Correr las pruebas
+`npm test`
