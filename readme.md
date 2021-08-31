@@ -24,7 +24,7 @@ El objetivo del siguiente ejercicio es simular las operaciones que se realizarí
 
 ## Notas:
 
-1. Tendrás que enfocarte en el archivo de la servicios y pruebas, **no le prestes atención a app ni a server.**
+1. Tendrás que enfocarte en el archivo de los servicios y pruebas, **no le prestes atención a app ni a server.**
 2. Asegúrate de que el id sea entero auto incrementable es decir que al momento de crear un usuario, éste reciba un id de forma dinámica (id del último usuario en la DB + 1).
 3. En cada uno de lo métodos tendrás que elegir entre los siguientes métodos:
 - `Array.find()` [https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/find](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
