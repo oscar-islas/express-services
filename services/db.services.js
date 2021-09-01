@@ -19,7 +19,7 @@ class AcademloDb {
     
     }
 
-    static create = (obj, id) => {
+    static create = (obj) => {
 
     }
 

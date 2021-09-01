@@ -60,7 +60,7 @@ describe("Servicio create", () => {
         await db.clear(); //Limpiar la DB
 
         newUser = {
-            id: 10,
+            id: 1,
             firstname: faker.name.firstName(),
             lastname: faker.name.lastName(),
             email: faker.internet.email().toLowerCase()
@@ -68,6 +68,7 @@ describe("Servicio create", () => {
     });
 
     it("Debería de regresar un objeto de tipo user", async () => {
+
         const userCreated = await db.create(newUser);
 
         expect(Object.keys(userCreated)).toEqual(
@@ -76,6 +77,7 @@ describe("Servicio create", () => {
     });
 
     it("Debería de regresar un objeto de tipo user con los valores que se acaban de agregar", async () => {
+
         const userCreated = await db.create(newUser);
 
         //Obtener el usuario que se agrego en la DB
@@ -95,26 +97,51 @@ describe("Servicio update", () => {
         await db.clear(); //Limpiar la DB
 
         newUser = {
-            id: 12,
+            id: 1,
             firstname: faker.name.firstName(),
             lastname: faker.name.lastName(),
             email: faker.internet.email().toLowerCase()
         };
 
         userCreated = await db.create(newUser); //Crear un nuevo usuario
-
     });
 
     it("Debería de regresar un objeto de tipo User al actualizar", async () => {
+        const {id} = newUser
+        
+        await db.update(newUser, id);
+
+        const user = await db.findById(id);
+
+        expect(Object.keys(user)).toEqual(
+            expect.arrayContaining(["id", "firstname", "lastname", "email"])
+        );
         
     });
 
     it("Debería de regresar un objeto de tipo User con los valores que se acaban de actualizar", async () => {
+        const {id} = newUser
+        
+        await db.update(newUser, id);
+
+        const user = await db.findById(id);
+
+        expect(Object.values(user)).toEqual(
+            expect.arrayContaining(Object.values(newUser))
+        );
         
     });
 
-    it("Debería de arrojar un error al tratar de actualizar un usuario que no existe en la DB", () => {
+    it("Debería de arrojar un error al tratar de actualizar un usuario que no existe en la DB", async() => {
+        const fakeId = 20;
 
+        let userUpdated = {...newUser};
+
+        userUpdated.firstname = "Alberto";
+
+        const updated = db.update(userUpdated, fakeId);
+
+        await expect(updated).rejects.toThrow();
     });
 });
 
@@ -126,21 +153,23 @@ describe("Servicio delete", () => {
         await db.clear(); //Limpiar la DB
 
         newUser = {
-            id: 13,
+            id: 1,
             firstname: faker.name.firstName(),
             lastname: faker.name.lastName(),
             email: faker.internet.email().toLowerCase()
         };
 
         userCreated = await db.create(newUser); //Crear un nuevo usuario
-
     });
 
     it("Debería de regresar true al eliminar un usuario", async () => {
-        
+        const {id} = newUser
+        const deleted = await db.delete(id);
+        expect(deleted).toBe(true);
     });
 
     it("Debería de regresar false al tratar de eliminar un usuario con un id que no existe en la DB", async () => {
-        
+        const deleted = await db.delete(20);
+        expect(deleted).toBe(false);
     });
 });
