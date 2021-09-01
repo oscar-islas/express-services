@@ -15,19 +15,66 @@ class AcademloDb {
         }
     }
 
-    static findById = id => {
+    static findById = async(id) => {
+        try{
+            let data = await fs.readFile(this.dbPath, "utf8");
+            let db = JSON.parse(data);
+            return db.find(item => item.id === id);
+        }catch(error){
+            throw new Error("Hubo un error al tratar de obtener el registro de la DB");
+        }
+    }
+
+    static create = async (obj) => {
+        try{
+            let data = await this.findAll();
+            let nextId = data.reduce((max, item) => item.id > max ? item.id : max, 0);
+
+
+            const newObj = obj;
+            newObj.id = nextId;
+
+            data.push(newObj);
+            await fs.writeFile(this.dbPath, JSON.stringify(data));
+
+            return newObj;
+        }catch(error){
+            throw new Error(error);
+        }
+    } 
+
+    static update = async(obj, id) => {
+        try{
+            let data = await this.findAll();
     
+            let index = data.findIndex(item => { return item.id === id } );
+            if (index === -1){
+                throw new Error("No existe el id en la DB");
+            }
+            let newObj = { id,...obj };
+            data[index] = newObj
+            await fs.writeFile(this.dbPath, JSON.stringify(data));
+            return newObj
+        }catch(error){
+            throw new Error(error);
+        }
+
     }
 
-    static create = (obj) => {
+    static delete = async(id) => {
+        try{
+            let data = await this.findAll();
+            let index = data.findIndex(item => item.id === id);
+            if (index === -1){
+                return false;
+            }
+            data.splice(index, 1);
+            await fs.writeFile(this.dbPath, JSON.stringify(data));
+            return true
+        }catch(error){
+            throw new Error(error)
+        }
 
-    }
-
-    static update = (obj, id) => {
-
-    }
-
-    static delete = id => {
 
     }
 
